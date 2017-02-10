@@ -1,0 +1,54 @@
+group 'org.craftsmenlabs'
+version '0.1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlinVersion = '1.0.5-2'
+
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'com.github.ben-manes.versions'
+    apply plugin: 'kotlin'
+
+    ext.assertJVersion = '3.6.1'
+    ext.firebaseAdminVersion = '4.0.3'
+    ext.jMockitVersion = '1.29'
+    ext.jUnitVersion = '4.12'
+    ext.kotlinVersion = '1.0.5-2'
+    ext.mockitoVersion = '2.0.7-beta'
+    ext.rxJavaVersion = '1.2.3'
+    ext.rxKotlinVersion = '0.60.0'
+    ext.rxFirebaseAdminVersion = '1.0'
+
+    repositories {
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/java'
+        main.kotlin.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/java'
+        test.kotlin.srcDirs += 'src/test/kotlin'
+    }
+
+    dependencies {
+        testCompile "org.assertj:assertj-core:${assertJVersion}"
+        testCompile "org.jmockit:jmockit:${jMockitVersion}"
+        testCompile "junit:junit:${jUnitVersion}"
+        testCompile "io.reactivex:rxkotlin:${rxKotlinVersion}" // TODO: Removing this (unused) dependency breaks the build?
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2.1'
+}

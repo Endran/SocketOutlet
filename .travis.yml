@@ -1,0 +1,14 @@
+language: java
+
+jdk:
+- oraclejdk8
+
+script: ./gradlew clean build
+
+after_success:
+- ./gradlew jacocoTestReport coveralls
+
+#notifications:
+#  slack:
+#    rooms:
+#      - codecentric:i0Ekrt5ujN7hHqmZviq64SsI#gareth
