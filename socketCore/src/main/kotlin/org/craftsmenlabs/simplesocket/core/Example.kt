@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.craftsmenlabs.simplesocket
+package org.craftsmenlabs.simplesocket.core
 
 class Example {
     fun hello(name: String): String {

@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-package org.craftsmenlabs.simplesocket
+package org.craftsmenlabs.simplesocket.server
 
-import mockit.Tested
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
-
-class ExampleTest {
-
-    @Tested
-    lateinit var example: Example
-
-    private val TEST = "TEST"
-
-    @Test
-    fun shouldReturnName() {
-        val response = example.hello(TEST)
-        assertThat(response).contains(TEST)
+class Example {
+    fun hello(name: String): String {
+        return "Hi $name"
     }
 }

@@ -15,6 +15,11 @@ buildscript {
 
 allprojects {
 
+    repositories {
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+
     apply plugin: 'java'
     apply plugin: 'com.github.ben-manes.versions'
     apply plugin: 'kotlin'
@@ -28,11 +33,6 @@ allprojects {
     ext.rxJavaVersion = '1.2.3'
     ext.rxKotlinVersion = '0.60.0'
     ext.rxFirebaseAdminVersion = '1.0'
-
-    repositories {
-        jcenter()
-        maven { url 'https://jitpack.io' }
-    }
 
     sourceSets {
         main.java.srcDirs += 'src/main/java'
