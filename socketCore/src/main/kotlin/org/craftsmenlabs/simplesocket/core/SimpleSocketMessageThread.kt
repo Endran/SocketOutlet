@@ -15,14 +15,13 @@ class SimpleSocketMessageThread(
         private val socket: Socket,
         private val logger: SLogger) : Thread() {
 
-    private val QUIT_MESSAGE = "QUIT_MESSAGE"
     private var writer: PrintWriter? = null
     private var running = true
 
     private val messageQueue = LinkedBlockingQueue<Any>()
 
     override fun run() {
-        logger.v { ("Eun") }
+        logger.v { ("Run") }
 
         try {
             val reader = BufferedReader(InputStreamReader(socket.inputStream))
@@ -32,7 +31,7 @@ class SimpleSocketMessageThread(
                 sendNow()
                 val line = reader.readLine()
                 logger.v { "Line: $line" }
-                if (line == null || line == QUIT_MESSAGE) {
+                if (line == null) {
                     break
                 }
 
@@ -42,7 +41,6 @@ class SimpleSocketMessageThread(
         } catch (e: IOException) {
             logger.e { "Error handling a client: $e" }
         } finally {
-            printQuit()
             running = false;
 
             try {
@@ -98,17 +96,15 @@ class SimpleSocketMessageThread(
             val valueAsString = objectMapper.writeValueAsString(socketMessage)
             logger.d { "-->" }
             println(valueAsString)
-            logger.v { "Messagae send" }
+            logger.v { "Message send" }
         }
     }
 
     override fun interrupt() {
-        printQuit()
         running = false
+        socket.close()
         super.interrupt()
     }
 
-    private fun printQuit() {
-        writer?.print(QUIT_MESSAGE)
-    }
+    fun isRunning() = running
 }

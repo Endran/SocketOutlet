@@ -11,9 +11,10 @@ import java.net.ServerSocket
 class SimpleSocketServer constructor(
         private val outletRegistry: OutletRegistry,
         private val objectMapper: ObjectMapper = ObjectMapper().initForSimpleSockets(),
-        private val logger: SLogger = CustomLogger(CustomLogger.Level.DEBUG)) {
+        private val logger: SLogger = CustomLogger(CustomLogger.Level.INFO)) {
 
     private var running: Boolean = false
+    private var threadList = mutableListOf<SimpleSocketMessageThread>()
 
     fun open(port: Int) {
         if (running) {
@@ -22,29 +23,27 @@ class SimpleSocketServer constructor(
 
         running = true
         ServerSocket(port).use {
-            logger.i {
-                "Server is running."
-            }
+            logger.i { "Server is running." }
 
             while (running) {
                 val socket = it.accept()
-                logger.i {
-                    "Client connected"
-                }
+                logger.i { "Client connected" }
+
                 val messageThread = SimpleSocketMessageThread(objectMapper, outletRegistry, socket, logger)
                 messageThread.start()
+                threadList.add(messageThread)
+
+                threadList.retainAll { it.isRunning() }
             }
         }
         running = false
 
-        logger.i {
-            "Server stopped."
-        }
+        logger.i { "Server stopped." }
     }
 
-//    fun close() {
-    // This will leak... needs to be book kept
-//        messageThread?.interrupt()
-//        messageThread = null
-//    }
+    fun close() {
+        running = false
+        threadList.forEach(SimpleSocketMessageThread::interrupt)
+        threadList.clear()
+    }
 }

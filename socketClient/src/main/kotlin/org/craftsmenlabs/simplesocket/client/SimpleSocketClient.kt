@@ -13,26 +13,31 @@ class SimpleSocketClient(
         private val port: Int,
         private val outletRegistry: OutletRegistry,
         private val objectMapper: ObjectMapper = ObjectMapper().initForSimpleSockets(),
-        private val logger: SLogger = CustomLogger(CustomLogger.Level.DEBUG)) {
+        private val logger: SLogger = CustomLogger(CustomLogger.Level.INFO)) {
 
     private var messageThread: SimpleSocketMessageThread? = null
-    private var running = false
 
     fun start() {
-        if (running) {
+        if (isRunning()) {
             throw RuntimeException("Thread already running")
         }
 
-        running = true
         val socket = Socket(ipAddress, port)
         messageThread = SimpleSocketMessageThread(objectMapper, outletRegistry, socket, logger)
         messageThread?.start()
     }
 
     fun send(message: Any) {
-        logger.d { "Sending" }
-        messageThread?.send(message)
+        messageThread?.run {
+            logger.d { "Sending" }
+            send(message)
+        }
     }
 
-    fun isRunning() = running
+    fun stop() {
+        messageThread?.interrupt()
+        messageThread = null
+    }
+
+    fun isRunning() = messageThread != null
 }

@@ -42,6 +42,8 @@ class ExampleClient {
 
         sendSomething(client)
 
+        Thread.sleep(5000)
+        client.stop()
     }
 
     private fun sendSomething(client: SimpleSocketClient) {
