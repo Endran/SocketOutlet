@@ -24,9 +24,9 @@ allprojects {
     apply plugin: 'com.github.ben-manes.versions'
     apply plugin: 'kotlin'
 
-    ext.assertJVersion = '3.6.1'
-    ext.firebaseAdminVersion = '4.0.3'
-    ext.jMockitVersion = '1.29'
+    ext.assertJVersion = '3.6.2'
+    ext.jacksonVersion = '2.8.7'
+    ext.jMockitVersion = '1.30'
     ext.jUnitVersion = '4.12'
     ext.kotlinVersion = '1.0.6'
     ext.mockitoVersion = '2.0.7-beta'
@@ -42,12 +42,12 @@ allprojects {
     }
 
     dependencies {
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-
-        testCompile "org.assertj:assertj-core:${assertJVersion}"
         testCompile "org.jmockit:jmockit:${jMockitVersion}"
+        testCompile "org.assertj:assertj-core:${assertJVersion}"
         testCompile "junit:junit:${jUnitVersion}"
         testCompile "io.reactivex:rxkotlin:${rxKotlinVersion}" // TODO: Removing this (unused) dependency breaks the build?
+
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     }
 }
 
