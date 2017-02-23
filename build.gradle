@@ -2,7 +2,7 @@ group 'org.craftsmenlabs'
 version '0.1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlinVersion = '1.0.5-2'
+    ext.kotlinVersion = '1.0.6'
 
     repositories {
         jcenter()
@@ -28,7 +28,7 @@ allprojects {
     ext.firebaseAdminVersion = '4.0.3'
     ext.jMockitVersion = '1.29'
     ext.jUnitVersion = '4.12'
-    ext.kotlinVersion = '1.0.5-2'
+    ext.kotlinVersion = '1.0.6'
     ext.mockitoVersion = '2.0.7-beta'
     ext.rxJavaVersion = '1.2.3'
     ext.rxKotlinVersion = '0.60.0'
@@ -42,6 +42,8 @@ allprojects {
     }
 
     dependencies {
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
         testCompile "org.assertj:assertj-core:${assertJVersion}"
         testCompile "org.jmockit:jmockit:${jMockitVersion}"
         testCompile "junit:junit:${jUnitVersion}"

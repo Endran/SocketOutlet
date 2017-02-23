@@ -16,20 +16,19 @@
 
 package org.craftsmenlabs.simplesocket.exampleserver
 
-import mockit.Tested
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.craftsmenlabs.simplesocket.server.SimpleSocketServer
 
-class ExampleTest {
+class ExampleServer {
 
-    @Tested
-    lateinit var example: Example
+    companion object {
+        @JvmStatic fun main(args: Array<String>) {
+            val port = args.getOrElse(0, { "6000" }).toInt()
+            ExampleServer().run(port)
+        }
+    }
 
-    private val TEST = "TEST"
-
-    @Test
-    fun shouldReturnName() {
-        val response = example.hello(TEST)
-        assertThat(response).contains(TEST)
+    fun run(port: Int) {
+        val t = SimpleSocketServer()
+        t.open(port)
     }
 }

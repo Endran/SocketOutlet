@@ -17,6 +17,7 @@
 package org.craftsmenlabs.simplesocket.client
 
 class Example {
+
     fun hello(name: String): String {
         return "Hi $name"
     }

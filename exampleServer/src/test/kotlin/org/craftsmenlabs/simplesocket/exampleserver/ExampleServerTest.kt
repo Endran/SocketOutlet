@@ -14,10 +14,21 @@
  * limitations under the License.
  */
 
-package org.craftsmenlabs.simplesocket.exampleclient
+package org.craftsmenlabs.simplesocket.exampleserver
 
-class Example {
-    fun hello(name: String): String {
-        return "Hi $name"
+import mockit.Tested
+import org.junit.Test
+
+class ExampleServerTest {
+
+    @Tested
+    lateinit var exampleServer: ExampleServer
+
+    private val TEST = "TEST"
+
+    @Test
+    fun shouldReturnName() {
+//        val response = exampleServer.hello(TEST)
+//        assertThat(response).contains(TEST)
     }
 }

@@ -14,10 +14,22 @@
  * limitations under the License.
  */
 
-package org.craftsmenlabs.simplesocket.exampleserver
+package org.craftsmenlabs.simplesocket.exampleclient
 
-class Example {
-    fun hello(name: String): String {
-        return "Hi $name"
+import org.craftsmenlabs.simplesocket.client.SimpleSocketClient
+
+class ExampleClient {
+
+    companion object {
+        @JvmStatic fun main(args: Array<String>) {
+            val ipAddress = args.getOrElse(0, { "127.0.0.1" })
+            val port = args.getOrElse(0, { "6000" }).toInt()
+            ExampleClient().run(ipAddress, port)
+        }
+    }
+
+    fun run(ipAddress: String, port: Int) {
+        val client = SimpleSocketClient()
+        client.connectToServer(ipAddress, port)
     }
 }
