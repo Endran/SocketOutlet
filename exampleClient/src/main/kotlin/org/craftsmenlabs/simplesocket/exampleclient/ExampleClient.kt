@@ -18,9 +18,9 @@ package org.craftsmenlabs.simplesocket.exampleclient
 
 import org.craftsmenlabs.simplesocket.client.SimpleSocketClient
 import org.craftsmenlabs.simplesocket.core.OutletRegistry
-import org.craftsmenlabs.simplesocket.exampleapi.ComplexSharedThing
-import org.craftsmenlabs.simplesocket.exampleapi.SimpleSharedThing
-import org.craftsmenlabs.simplesocket.exampleclient.outlets.ClientOutlet
+import org.craftsmenlabs.simplesocket.exampleapi.ComplexThing
+import org.craftsmenlabs.simplesocket.exampleapi.SimpleThing
+import org.craftsmenlabs.simplesocket.exampleclient.outlets.SimpleThingOutlet
 import java.time.ZonedDateTime
 
 class ExampleClient {
@@ -35,7 +35,7 @@ class ExampleClient {
 
     fun execute(ipAddress: String, port: Int) {
         val outletRegistry = OutletRegistry()
-        outletRegistry.register(ClientOutlet())
+        outletRegistry.register(SimpleThingOutlet())
 
         val client = SimpleSocketClient(ipAddress, port, outletRegistry)
         client.start()
@@ -45,10 +45,10 @@ class ExampleClient {
     }
 
     private fun sendSomething(client: SimpleSocketClient) {
-        val simpleSharedThing1 = SimpleSharedThing("one", 1, true)
-        val simpleSharedThing2 = SimpleSharedThing("two", 2, false)
-        val simpleSharedThing3 = SimpleSharedThing("three", 3)
-        val complexSharedThing = ComplexSharedThing(ZonedDateTime.now(), simpleSharedThing1, listOf(simpleSharedThing2, simpleSharedThing3))
+        val simpleSharedThing1 = SimpleThing("one", 1, true)
+        val simpleSharedThing2 = SimpleThing("two", 2, false)
+        val simpleSharedThing3 = SimpleThing("three", 3)
+        val complexSharedThing = ComplexThing(ZonedDateTime.now(), simpleSharedThing1, listOf(simpleSharedThing2, simpleSharedThing3))
 
         client.send(complexSharedThing)
     }

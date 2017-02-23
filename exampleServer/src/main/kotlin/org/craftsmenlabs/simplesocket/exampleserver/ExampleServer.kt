@@ -17,8 +17,8 @@
 package org.craftsmenlabs.simplesocket.exampleserver
 
 import org.craftsmenlabs.simplesocket.core.OutletRegistry
-import org.craftsmenlabs.simplesocket.exampleserver.outlets.ServerOutlet1
-import org.craftsmenlabs.simplesocket.exampleserver.outlets.ServerOutlet2
+import org.craftsmenlabs.simplesocket.exampleserver.outlets.ComplexThingOutlet
+import org.craftsmenlabs.simplesocket.exampleserver.outlets.SimpleThingOutlet
 import org.craftsmenlabs.simplesocket.server.SimpleSocketServer
 
 class ExampleServer {
@@ -32,8 +32,8 @@ class ExampleServer {
 
     fun execute(port: Int) {
         val outletRegistry = OutletRegistry()
-        outletRegistry.register(ServerOutlet1())
-        outletRegistry.register(ServerOutlet2())
+        outletRegistry.register(SimpleThingOutlet())
+        outletRegistry.register(ComplexThingOutlet())
 
         val t = SimpleSocketServer(outletRegistry)
         t.open(port)
