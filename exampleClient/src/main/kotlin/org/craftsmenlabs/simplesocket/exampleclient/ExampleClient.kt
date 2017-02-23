@@ -46,7 +46,7 @@ class ExampleClient {
 
     private fun sendSomething(client: SimpleSocketClient) {
         val simpleSharedThing1 = SimpleSharedThing("one", 1, true)
-        val simpleSharedThing2 = SimpleSharedThing("two", 1, false)
+        val simpleSharedThing2 = SimpleSharedThing("two", 2, false)
         val simpleSharedThing3 = SimpleSharedThing("three", 3)
         val complexSharedThing = ComplexSharedThing(ZonedDateTime.now(), simpleSharedThing1, listOf(simpleSharedThing2, simpleSharedThing3))
 
