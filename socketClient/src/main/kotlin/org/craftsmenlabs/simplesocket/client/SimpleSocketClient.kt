@@ -1,5 +1,7 @@
 package org.craftsmenlabs.simplesocket.client
 
+import org.craftsmenlabs.simplesocket.core.SharedFactory
+import org.craftsmenlabs.simplesocket.core.SocketMessage
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -12,7 +14,7 @@ class SimpleSocketClient {
     private var writer: PrintWriter? = null
 
     @Throws(IOException::class)
-    fun connectToServer(ipAddress: String, port: Int) {
+    fun connectToServer(ipAddress: String, port: Int, s: SocketMessage) {
 
         try {
             Socket(ipAddress, port).use { socket ->
@@ -23,8 +25,8 @@ class SimpleSocketClient {
                 for (i in 0..2) {
                     println(reader!!.readLine() + "\n")
                 }
-
-                writer!!.println("Hello from client")
+                val objectMapper = SharedFactory().objectMapper()
+                writer!!.println(objectMapper.writeValueAsString(s))
 
                 println(reader!!.readLine() + "\n")
             }

@@ -17,6 +17,9 @@
 package org.craftsmenlabs.simplesocket.exampleclient
 
 import org.craftsmenlabs.simplesocket.client.SimpleSocketClient
+import org.craftsmenlabs.simplesocket.core.SharedFactory
+import org.craftsmenlabs.simplesocket.core.SocketMessage
+import org.craftsmenlabs.simplesocket.exampleapi.SimpleSharedThing
 
 class ExampleClient {
 
@@ -30,6 +33,12 @@ class ExampleClient {
 
     fun run(ipAddress: String, port: Int) {
         val client = SimpleSocketClient()
-        client.connectToServer(ipAddress, port)
+
+        val objectMapper = SharedFactory().objectMapper()
+
+        val simpleSharedThing = SimpleSharedThing("tralala", 6, true)
+        val socketMessage = SocketMessage(simpleSharedThing.javaClass.name, objectMapper.writeValueAsString(simpleSharedThing))
+
+        client.connectToServer(ipAddress, port, socketMessage)
     }
 }

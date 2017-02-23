@@ -16,14 +16,12 @@
 
 package org.craftsmenlabs.simplesocket.exampleclient
 
-import mockit.Tested
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class ExampleClientTest {
 
-    @Tested
-    lateinit var exampleClient: ExampleClient
+//    @Tested
+//    lateinit var exampleClient: ExampleClient
 
     private val TEST = "TEST"
 

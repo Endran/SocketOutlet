@@ -1,8 +1,17 @@
 package org.craftsmenlabs.simplesocket.server
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.craftsmenlabs.simplesocket.core.OutletRegistry
+import org.craftsmenlabs.simplesocket.core.SharedFactory
 import java.net.ServerSocket
 
-class SimpleSocketServer {
+class SimpleSocketServer constructor(val outletRegistry: OutletRegistry, sharedFactory: SharedFactory = SharedFactory()) {
+
+    val objectMapper: ObjectMapper
+
+    init {
+        objectMapper = sharedFactory.objectMapper()
+    }
 
     var running: Boolean = false
 
@@ -17,7 +26,7 @@ class SimpleSocketServer {
         try {
             System.out.println("The capitalization server is running.")
             while (running) {
-                Capitalizer(serverSocket.accept(), clientNumber++).start()
+                Capitalizer(objectMapper, outletRegistry, serverSocket.accept(), clientNumber++).start()
             }
         } finally {
             serverSocket.close()

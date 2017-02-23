@@ -17,18 +17,19 @@
 package org.craftsmenlabs.simplesocket.exampleserver
 
 import mockit.Tested
+import org.craftsmenlabs.simplesocket.server.SimpleSocketServer
 import org.junit.Test
 
 class ExampleServerTest {
 
-    @Tested
-    lateinit var exampleServer: ExampleServer
-
-    private val TEST = "TEST"
-
-    @Test
-    fun shouldReturnName() {
-//        val response = exampleServer.hello(TEST)
-//        assertThat(response).contains(TEST)
-    }
+//    @Tested
+//    lateinit var exampleServer: SimpleSocketServer
+//
+//    private val TEST = "TEST"
+//
+//    @Test
+//    fun shouldReturnName() {
+////        val response = exampleServer.hello(TEST)
+////        assertThat(response).contains(TEST)
+//    }
 }

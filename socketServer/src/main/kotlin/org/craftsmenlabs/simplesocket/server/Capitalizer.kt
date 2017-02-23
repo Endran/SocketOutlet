@@ -1,12 +1,15 @@
 package org.craftsmenlabs.simplesocket.server
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.craftsmenlabs.simplesocket.core.OutletRegistry
+import org.craftsmenlabs.simplesocket.core.SocketMessage
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.Socket
 
-class Capitalizer(private val socket: Socket, private val clientNumber: Int) : Thread() {
+class Capitalizer(private val objectMapper: ObjectMapper, val outletRegistry: OutletRegistry, private val socket: Socket, private val clientNumber: Int) : Thread() {
 
     init {
         log("New connection with client# $clientNumber at $socket")
@@ -38,6 +41,12 @@ class Capitalizer(private val socket: Socket, private val clientNumber: Int) : T
                 if (input == null || input == ".") {
                     break
                 }
+
+                val (className, messageObject) = objectMapper.readValue(input, SocketMessage::class.java)
+                val clazz = outletRegistry.getClazz(className!!)
+                val typelessObject = objectMapper.readValue(messageObject, clazz)
+                outletRegistry.getOutlet(className!!)?.onTypelessMessage(typelessObject)
+
                 val message = input.toUpperCase()
                 out.println(message)
             }

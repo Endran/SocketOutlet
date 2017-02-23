@@ -1,5 +1,10 @@
 package org.craftsmenlabs.simplesocket.core
 
-interface Outlet<in T> {
-    fun onMessage(message: T)
+abstract class Outlet<in T> {
+
+    fun onTypelessMessage(message: Any) {
+        onMessage(message as T)
+    }
+
+    abstract fun onMessage(message: T)
 }

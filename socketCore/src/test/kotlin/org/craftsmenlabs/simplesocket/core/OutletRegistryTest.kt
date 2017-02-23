@@ -45,10 +45,10 @@ class OutletRegistryTest {
         assertThat(actualOutlet2).isSameAs(outlet2)
     }
 
-    class TestOutlet<T> : Outlet<T> {
-        var message : T? = null
+    class TestOutlet<T> : Outlet<T>() {
+        var message: T? = null
         override fun onMessage(message: T) {
-            this.message=message
+            this.message = message
         }
     }
 }

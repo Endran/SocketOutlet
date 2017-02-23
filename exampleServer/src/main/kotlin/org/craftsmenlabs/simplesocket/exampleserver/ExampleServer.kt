@@ -16,6 +16,11 @@
 
 package org.craftsmenlabs.simplesocket.exampleserver
 
+import org.craftsmenlabs.simplesocket.core.OutletRegistry
+import org.craftsmenlabs.simplesocket.exampleapi.ComplexSharedThing
+import org.craftsmenlabs.simplesocket.exampleapi.SimpleSharedThing
+import org.craftsmenlabs.simplesocket.exampleserver.outlets.ExampleOutlet1
+import org.craftsmenlabs.simplesocket.exampleserver.outlets.ExampleOutlet2
 import org.craftsmenlabs.simplesocket.server.SimpleSocketServer
 
 class ExampleServer {
@@ -28,7 +33,11 @@ class ExampleServer {
     }
 
     fun run(port: Int) {
-        val t = SimpleSocketServer()
+        val outletRegistry = OutletRegistry()
+        outletRegistry.register(SimpleSharedThing::class.java, ExampleOutlet1())
+        outletRegistry.register(ComplexSharedThing::class.java, ExampleOutlet2())
+
+        val t = SimpleSocketServer(outletRegistry)
         t.open(port)
     }
 }
