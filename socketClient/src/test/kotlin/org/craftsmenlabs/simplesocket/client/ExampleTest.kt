@@ -18,7 +18,6 @@ package org.craftsmenlabs.simplesocket.client
 
 import mockit.Tested
 import org.assertj.core.api.Assertions.assertThat
-import org.craftsmenlabs.simplesocket.core.Example
 import org.junit.Test
 
 class ExampleTest {
