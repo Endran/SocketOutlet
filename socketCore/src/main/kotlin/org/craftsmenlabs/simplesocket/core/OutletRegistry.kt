@@ -2,10 +2,10 @@ package org.craftsmenlabs.simplesocket.core
 
 class OutletRegistry {
 
-    val registry = mutableMapOf<Class<*>, Outlet<*>>()
+    private val registry = mutableMapOf<Class<*>, Outlet<*>>()
 
-    fun <T> register(clazz: Class<T>, outlet: Outlet<T>) {
-        registry.put(clazz, outlet)
+    fun <T> register(outlet: Outlet<T>) {
+        registry.put(outlet.clazz, outlet)
     }
 
     fun getClazz(clazzName: String): Class<*>? {

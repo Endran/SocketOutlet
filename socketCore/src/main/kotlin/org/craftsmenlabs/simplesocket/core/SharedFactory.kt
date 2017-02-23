@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 
-class SharedFactory {
+open class SharedFactory {
 
     fun objectMapper(): ObjectMapper {
         val mapper = ObjectMapper()

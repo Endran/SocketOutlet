@@ -9,8 +9,8 @@ class OutletRegistryTest {
     @Tested
     lateinit var outletRegistry: OutletRegistry
 
-    private var outlet1 = TestOutlet<TestData1>()
-    private var outlet2 = TestOutlet<TestData2>()
+    private var outlet1 = TestOutlet<TestData1>(TestData1::class.java)
+    private var outlet2 = TestOutlet<TestData2>(TestData2::class.java)
 
     data class TestData1(val message: String)
     data class TestData2(val message: String)
@@ -20,8 +20,8 @@ class OutletRegistryTest {
         val expectedClazz1 = TestData1::class.java
         val expectedClazz2 = TestData2::class.java
 
-        outletRegistry.register(expectedClazz1, outlet1)
-        outletRegistry.register(expectedClazz2, outlet2)
+        outletRegistry.register(outlet1)
+        outletRegistry.register(outlet2)
 
         val actualClazz1 = outletRegistry.getClazz(expectedClazz1.name)
         val actualClazz2 = outletRegistry.getClazz(expectedClazz2.name)
@@ -35,8 +35,8 @@ class OutletRegistryTest {
         val expectedClazz1 = TestData1::class.java
         val expectedClazz2 = TestData2::class.java
 
-        outletRegistry.register(expectedClazz1, outlet1)
-        outletRegistry.register(expectedClazz2, outlet2)
+        outletRegistry.register(outlet1)
+        outletRegistry.register(outlet2)
 
         val actualOutlet1 = outletRegistry.getOutlet(expectedClazz1.name)
         val actualOutlet2 = outletRegistry.getOutlet(expectedClazz2.name)
@@ -45,9 +45,9 @@ class OutletRegistryTest {
         assertThat(actualOutlet2).isSameAs(outlet2)
     }
 
-    class TestOutlet<T> : Outlet<T>() {
+    class TestOutlet<T>(clazz: Class<T>) : Outlet<T>(clazz) {
         var message: T? = null
-        override fun onMessage(message: T) {
+        override fun onMessage(message: T, egress: Egress) {
             this.message = message
         }
     }
