@@ -26,11 +26,11 @@ class ExampleServer {
     companion object {
         @JvmStatic fun main(args: Array<String>) {
             val port = args.getOrElse(0, { "6000" }).toInt()
-            ExampleServer().run(port)
+            ExampleServer().execute(port)
         }
     }
 
-    fun run(port: Int) {
+    fun execute(port: Int) {
         val outletRegistry = OutletRegistry()
         outletRegistry.register(ServerOutlet1())
         outletRegistry.register(ServerOutlet2())

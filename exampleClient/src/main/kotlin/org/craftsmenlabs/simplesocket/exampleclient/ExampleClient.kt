@@ -17,7 +17,7 @@
 package org.craftsmenlabs.simplesocket.exampleclient
 
 import org.craftsmenlabs.simplesocket.client.SimpleSocketClient
-import org.craftsmenlabs.simplesocket.core.SharedFactory
+import org.craftsmenlabs.simplesocket.core.OutletRegistry
 import org.craftsmenlabs.simplesocket.exampleapi.ComplexSharedThing
 import org.craftsmenlabs.simplesocket.exampleapi.SimpleSharedThing
 import org.craftsmenlabs.simplesocket.exampleclient.outlets.ClientOutlet
@@ -29,26 +29,21 @@ class ExampleClient {
         @JvmStatic fun main(args: Array<String>) {
             val ipAddress = args.getOrElse(0, { "127.0.0.1" })
             val port = args.getOrElse(0, { "6000" }).toInt()
-            ExampleClient().run(ipAddress, port)
+            ExampleClient().execute(ipAddress, port)
         }
     }
 
-    fun run(ipAddress: String, port: Int) {
-        val outletRegistry = SharedFactory().outletRegistry()
+    fun execute(ipAddress: String, port: Int) {
+        val outletRegistry = OutletRegistry()
         outletRegistry.register(ClientOutlet())
-
-        val client = SimpleSocketClient(ipAddress, port, outletRegistry)
 
         val simpleSharedThing1 = SimpleSharedThing("one", 1, true)
         val simpleSharedThing2 = SimpleSharedThing("two", 1, false)
         val simpleSharedThing3 = SimpleSharedThing("three", 3)
         val complexSharedThing = ComplexSharedThing(ZonedDateTime.now(), simpleSharedThing1, listOf(simpleSharedThing2, simpleSharedThing3))
 
+        val client = SimpleSocketClient(ipAddress, port, outletRegistry)
         client.start()
         client.send(complexSharedThing)
-
-        while (client.isRunning()){
-            Thread.sleep(100)
-        }
     }
 }
