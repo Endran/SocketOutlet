@@ -19,7 +19,9 @@ package org.craftsmenlabs.simplesocket.exampleclient
 import org.craftsmenlabs.simplesocket.client.SimpleSocketClient
 import org.craftsmenlabs.simplesocket.core.SharedFactory
 import org.craftsmenlabs.simplesocket.core.SocketMessage
+import org.craftsmenlabs.simplesocket.exampleapi.ComplexSharedThing
 import org.craftsmenlabs.simplesocket.exampleapi.SimpleSharedThing
+import java.time.ZonedDateTime
 
 class ExampleClient {
 
@@ -36,8 +38,11 @@ class ExampleClient {
 
         val objectMapper = SharedFactory().objectMapper()
 
-        val simpleSharedThing = SimpleSharedThing("tralala", 6, true)
-        val socketMessage = SocketMessage(simpleSharedThing.javaClass.name, objectMapper.writeValueAsString(simpleSharedThing))
+        val simpleSharedThing1 = SimpleSharedThing("one", 1, true)
+        val simpleSharedThing2 = SimpleSharedThing("two", 1, false)
+        val simpleSharedThing3 = SimpleSharedThing("three", 3)
+        val complexSharedThing = ComplexSharedThing(ZonedDateTime.now(), simpleSharedThing1, listOf(simpleSharedThing2, simpleSharedThing3))
+        val socketMessage = SocketMessage(complexSharedThing.javaClass.name, objectMapper.writeValueAsString(complexSharedThing))
 
         client.connectToServer(ipAddress, port, socketMessage)
     }
