@@ -17,6 +17,10 @@ class SocketOutletServer constructor(
         internal set
 
     internal var threadList = mutableListOf<MessageThread>()
+    internal var threadMap = mutableMapOf<String, MessageThread>()
+
+    var clientConnectedCallback: ((String) -> Unit)? = null
+    var clientDisconnectedCallback: ((String) -> Unit)? = null
 
     fun open(port: Int) {
         if (running) {
@@ -24,12 +28,13 @@ class SocketOutletServer constructor(
         }
 
         running = true
-        ServerSocket(port).use {
-            serverLoop(it)
-        }
-        running = false
-
-        logger.i { "Server stopped." }
+        Thread({
+            ServerSocket(port).use {
+                serverLoop(it)
+            }
+            running = false
+            logger.i { "Server stopped." }
+        }).start()
     }
 
     internal fun serverLoop(it: ServerSocket) {
@@ -41,9 +46,22 @@ class SocketOutletServer constructor(
 
             val messageThread = MessageThread(objectMapper, outletRegistry, socket, logger)
             messageThread.start()
+            messageThread.idCallback = {
+                threadMap.put(it, messageThread)
+                clientConnectedCallback?.invoke(it)
+            }
+            messageThread.disconnctedCallback = {
+                threadList.remove(messageThread)
+                val id = threadMap.entries.find { it.value == messageThread }?.key
+                id?.run {
+                    threadMap.remove(id)
+                    clientDisconnectedCallback?.invoke(id)
+                }
+            }
             threadList.add(messageThread)
 
             threadList.retainAll { it.isRunning() }
+            threadMap.filter { it.value.isRunning() }
         }
     }
 
@@ -51,5 +69,9 @@ class SocketOutletServer constructor(
         running = false
         threadList.forEach(MessageThread::interrupt)
         threadList.clear()
+    }
+
+    fun send(clientId: String, message: Any) {
+        threadMap[clientId]?.send(message)
     }
 }

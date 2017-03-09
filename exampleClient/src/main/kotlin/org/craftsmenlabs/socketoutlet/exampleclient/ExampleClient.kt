@@ -37,7 +37,7 @@ class ExampleClient {
         val outletRegistry = OutletRegistry()
         outletRegistry.register(SimpleThingOutlet())
 
-        val client = SocketOutletClient(ipAddress, port, outletRegistry)
+        val client = SocketOutletClient("ExampleClient", ipAddress, port, outletRegistry)
         client.start()
 
         sendSomething(client)

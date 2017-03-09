@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
 
-class CustomLogger(val level: Level) : SLogger {
+class CustomLogger(val level: Level, val logTag: String = "") : SLogger {
 
     enum class Level {
         VERBOSE, DEBUG, INFO, WARNING, ERROR, NONE
@@ -15,31 +15,31 @@ class CustomLogger(val level: Level) : SLogger {
 
     override fun v(message: () -> String) {
         if (Level.VERBOSE.ordinal >= level.ordinal) {
-            println("${getTimeStamp()} VERBOSE (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} VERBOSE (${getTag()}) $logTag: ${message.invoke()}")
         }
     }
 
     override fun d(message: () -> String) {
         if (Level.DEBUG.ordinal >= level.ordinal) {
-            println("${getTimeStamp()} DEBUG   (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} DEBUG   (${getTag()}) $logTag: ${message.invoke()}")
         }
     }
 
     override fun i(message: () -> String) {
         if (Level.INFO.ordinal >= level.ordinal) {
-            println("${getTimeStamp()} INFO    (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} INFO    (${getTag()}) $logTag: ${message.invoke()}")
         }
     }
 
     override fun w(message: () -> String) {
         if (Level.WARNING.ordinal >= level.ordinal) {
-            println("${getTimeStamp()} WARNING (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} WARNING (${getTag()}) $logTag: ${message.invoke()}")
         }
     }
 
     override fun e(message: () -> String) {
         if (Level.ERROR.ordinal >= level.ordinal) {
-            println("${getTimeStamp()} ERROR   (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} ERROR   (${getTag()}) $logTag: ${message.invoke()}")
         }
     }
 

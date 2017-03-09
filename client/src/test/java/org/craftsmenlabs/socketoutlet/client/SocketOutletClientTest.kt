@@ -11,11 +11,13 @@ import org.craftsmenlabs.socketoutlet.core.MessageThread
 import org.craftsmenlabs.socketoutlet.core.OutletRegistry
 import org.craftsmenlabs.socketoutlet.core.log.SLogger
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import java.net.Socket
 
 class SocketOutletClientTest {
 
+    private val testId = "TEST_CLIENT"
     private var ipAddress = "TEST_IP_ADDRESS"
     private var port = 111
     private var objectMapper: ObjectMapper = ObjectMapper();
@@ -35,7 +37,7 @@ class SocketOutletClientTest {
 
     @Before
     fun setUp() {
-        socketOutletClient = SocketOutletClient(ipAddress, port, outletRegistry, objectMapper, logger)
+        socketOutletClient = SocketOutletClient(testId, ipAddress, port, outletRegistry, objectMapper, logger)
     }
 
     @Test
@@ -44,7 +46,7 @@ class SocketOutletClientTest {
     }
 
     @Test
-    fun shouldTByRunning_whenMessageThreadIsSet() {
+    fun shouldBeRunning_whenMessageThreadIsSet() {
         assertThat(socketOutletClient.isRunning()).isFalse()
 
         socketOutletClient.messageThread = messageThread
@@ -109,5 +111,69 @@ class SocketOutletClientTest {
                 messageThread.start()
             }
         }
+    }
+
+    @Ignore("Something with captureing the callbacks in Java")
+    @Test
+    fun shouldGetACallBack_whenConnected(
+            @Mocked socket: Socket,
+            @Mocked messageThread: MessageThread) {
+
+        object : Expectations() {
+            init {
+                Socket(ipAddress, port)
+                result = socket
+
+                MessageThread(objectMapper, outletRegistry, socket, logger)
+                result = messageThread
+            }
+        }
+
+        socketOutletClient.start()
+
+        var serverConnectedCallbackInvoked = false
+        socketOutletClient.serverConnectedCallback = {
+            serverConnectedCallbackInvoked = true
+        }
+
+        object : Verifications() {
+            init {
+                // Something with captureing the callbacks in Java :/
+            }
+        }
+
+        assertThat(serverConnectedCallbackInvoked).isTrue()
+    }
+
+    @Ignore("Something with captureing the callbacks in Java")
+    @Test
+    fun shouldGetACallBack_whenDisconnected(
+            @Mocked socket: Socket,
+            @Mocked messageThread: MessageThread) {
+
+        object : Expectations() {
+            init {
+                Socket(ipAddress, port)
+                result = socket
+
+                MessageThread(objectMapper, outletRegistry, socket, logger)
+                result = messageThread
+            }
+        }
+
+        socketOutletClient.start()
+
+        var serverDisconnectedCallbackInvoked = false
+        socketOutletClient.serverDisconnectedCallback = {
+            serverDisconnectedCallbackInvoked = true
+        }
+
+        object : Verifications() {
+            init {
+                // Something with captureing the callbacks in Java :/
+            }
+        }
+
+        assertThat(serverDisconnectedCallbackInvoked).isTrue()
     }
 }

@@ -9,6 +9,7 @@ import org.craftsmenlabs.socketoutlet.core.log.SLogger
 import java.net.Socket
 
 class SocketOutletClient(
+        private val id: String,
         private val ipAddress: String,
         private val port: Int,
         private val outletRegistry: OutletRegistry,
@@ -17,6 +18,9 @@ class SocketOutletClient(
 
     internal var messageThread: MessageThread? = null
 
+    var serverConnectedCallback: (() -> Unit)? = null
+    var serverDisconnectedCallback: (() -> Unit)? = null
+
     fun start() {
         if (isRunning()) {
             throw RuntimeException("Thread already running")
@@ -24,6 +28,9 @@ class SocketOutletClient(
 
         val socket = Socket(ipAddress, port)
         messageThread = MessageThread(objectMapper, outletRegistry, socket, logger)
+        messageThread?.actorId = id
+        messageThread?.connectedCallback = serverConnectedCallback
+        messageThread?.disconnctedCallback = serverDisconnectedCallback
         messageThread?.start()
     }
 

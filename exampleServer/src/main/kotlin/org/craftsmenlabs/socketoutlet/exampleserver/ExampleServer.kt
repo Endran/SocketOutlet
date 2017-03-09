@@ -36,6 +36,15 @@ class ExampleServer {
         outletRegistry.register(ComplexThingOutlet())
 
         val server = SocketOutletServer(outletRegistry)
+
+        server.clientConnectedCallback = {
+            println("Client with id $it connected")
+        }
+
+        server.clientDisconnectedCallback = {
+            println("Client with id $it disconnected")
+        }
+
         server.open(port)
     }
 }
