@@ -4,6 +4,10 @@
 [![Coverage Status](https://coveralls.io/repos/github/Endran/SocketOutlet/badge.svg?branch=master)](https://coveralls.io/github/Endran/SocketOutlet?branch=master)
 [![](https://jitpack.io/v/endran/SocketOutlet.svg)](https://jitpack.io/#endran/SocketOutlet)
 
+**Develop** 
+[![Build Status](https://travis-ci.org/Endran/SocketOutlet.svg?branch=develop)](https://travis-ci.org/Endran/SocketOutlet)
+[![Coverage Status](https://coveralls.io/repos/github/Endran/SocketOutlet/badge.svg?branch=develop)](https://coveralls.io/github/Endran/SocketOutlet?branch=develop)
+
 # Socket Outlet
 A simple library wrapping sockets, to communicate via nice Java Interfaces and Objects.
 
