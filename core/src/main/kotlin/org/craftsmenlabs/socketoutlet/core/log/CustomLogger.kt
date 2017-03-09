@@ -1,5 +1,7 @@
 package org.craftsmenlabs.socketoutlet.core.log
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
 
@@ -9,33 +11,35 @@ class CustomLogger(val level: Level) : SLogger {
         VERBOSE, DEBUG, INFO, WARNING, ERROR, NONE
     }
 
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
+
     override fun v(message: () -> String) {
         if (Level.VERBOSE.ordinal >= level.ordinal) {
-            println("VERBOSE (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} VERBOSE (${getTag()}): ${message.invoke()}")
         }
     }
 
     override fun d(message: () -> String) {
         if (Level.DEBUG.ordinal >= level.ordinal) {
-            println("DEBUG  (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} DEBUG   (${getTag()}): ${message.invoke()}")
         }
     }
 
     override fun i(message: () -> String) {
         if (Level.INFO.ordinal >= level.ordinal) {
-            println("INFO    (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} INFO    (${getTag()}): ${message.invoke()}")
         }
     }
 
     override fun w(message: () -> String) {
         if (Level.WARNING.ordinal >= level.ordinal) {
-            println("WARNING (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} WARNING (${getTag()}): ${message.invoke()}")
         }
     }
 
     override fun e(message: () -> String) {
         if (Level.ERROR.ordinal >= level.ordinal) {
-            println("ERROR  (${getTag()}): ${message.invoke()}")
+            println("${getTimeStamp()} ERROR   (${getTag()}): ${message.invoke()}")
         }
     }
 
@@ -57,5 +61,9 @@ class CustomLogger(val level: Level) : SLogger {
             return "GENERIC"
         }
         return createStackElementTag(stackTrace[CALL_STACK_INDEX])
+    }
+
+    private fun getTimeStamp(): String {
+        return LocalDateTime.now().format(formatter)
     }
 }

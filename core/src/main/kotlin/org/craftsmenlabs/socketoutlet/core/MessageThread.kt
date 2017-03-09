@@ -39,7 +39,9 @@ class MessageThread(
                 handleMessage(line)
             }
         } catch (e: IOException) {
-            logger.e { "Error handling a client: $e" }
+            if (running) {
+                logger.e { "An error in the run loop, shutting down: $e" }
+            }
         } finally {
             running = false;
 
