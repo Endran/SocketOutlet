@@ -43,6 +43,8 @@ class SocketOutletClient(
 
     fun stop() {
         messageThread?.interrupt()
+        messageThread?.connectedCallback = null
+        messageThread?.disconnctedCallback = null
         messageThread = null
     }
 

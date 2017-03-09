@@ -48,6 +48,13 @@ class IntegrationTest() {
     fun tearDown() {
         client.stop()
         server.close()
+
+        server.clientConnectedCallback = null
+        server.clientDisconnectedCallback = null
+
+        client.serverConnectedCallback = null
+        client.serverDisconnectedCallback = null
+
         Thread.sleep(TEST_DELAY)
     }
 
@@ -193,6 +200,7 @@ class IntegrationTest() {
 
         server.close()
         await()
+        await()
 
         assertThat(serverConnected).isFalse()
     }
@@ -221,7 +229,7 @@ class IntegrationTest() {
         clientOutletRegistry.register(simpleClientOutlet)
         clientOutletRegistry.register(complexClientOutlet)
 
-        client = SocketOutletClient(clientId, IP_ADDRESS, PORT, clientOutletRegistry, ObjectMapper().initForSocketOutlet(), CustomLogger(CustomLogger.Level.VERBOSE, "client "))
+        client = SocketOutletClient(clientId, IP_ADDRESS, PORT, clientOutletRegistry, ObjectMapper().initForSocketOutlet(), CustomLogger(CustomLogger.Level.VERBOSE, "client"))
 
         client.serverConnectedCallback = {
             serverConnected = true

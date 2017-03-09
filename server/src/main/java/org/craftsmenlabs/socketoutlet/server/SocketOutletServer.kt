@@ -30,6 +30,7 @@ class SocketOutletServer constructor(
         running = true
         Thread({
             ServerSocket(port).use {
+                logger.i { "Server is running on port $port." }
                 serverLoop(it)
             }
             running = false
@@ -38,8 +39,6 @@ class SocketOutletServer constructor(
     }
 
     internal fun serverLoop(it: ServerSocket) {
-        logger.i { "Server is running." }
-
         while (running) {
             val socket = it.accept()
             logger.i { "Client connected" }
@@ -54,8 +53,10 @@ class SocketOutletServer constructor(
                 threadList.remove(messageThread)
                 val id = threadMap.entries.find { it.value == messageThread }?.key
                 id?.run {
-                    threadMap.remove(id)
+                    val remove = threadMap.remove(id)
                     clientDisconnectedCallback?.invoke(id)
+                    remove?.connectedCallback = null
+                    remove?.disconnctedCallback = null
                 }
             }
             threadList.add(messageThread)
