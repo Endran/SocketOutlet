@@ -2,18 +2,17 @@ package org.craftsmenlabs.socketoutlet.core
 
 class OutletRegistry {
 
-    private val registry = mutableMapOf<Class<*>, Outlet<*>>()
+    private val registry = mutableMapOf<String, Pair<Class<*>, Outlet<*>>>()
 
     fun <T> register(outlet: Outlet<T>) {
-        registry.put(outlet.clazz, outlet)
+        registry.put(outlet.clazz.simpleName, Pair(outlet.clazz, outlet))
     }
 
-    fun getClazz(clazzName: String): Class<*>? {
-        return registry.keys.find { it.name == clazzName }
+    fun getClazz(simpleClazzName: String): Class<*>? {
+        return registry[simpleClazzName]?.first
     }
 
-    fun getOutlet(clazzName: String): Outlet<*>? {
-        val clazz = getClazz(clazzName)
-        return registry[clazz]
+    fun getOutlet(simpleClazzName: String): Outlet<*>? {
+        return registry[simpleClazzName]?.second
     }
 }

@@ -55,13 +55,13 @@ class MessageThread(
 
     private fun handleMessage(line: String) {
 
-        val (className, messageObject) = objectMapper.readValue(line, SocketMessage::class.java)
-        val clazz = outletRegistry.getClazz(className)
+        val (simpleName, messageObject) = objectMapper.readValue(line, SocketMessage::class.java)
+        val clazz = outletRegistry.getClazz(simpleName)
         val typelessObject = objectMapper.readValue(messageObject, clazz)
 
-        val outlet = outletRegistry.getOutlet(className)
+        val outlet = outletRegistry.getOutlet(simpleName)
         if (outlet == null) {
-            logger.w { "Could not find outlet for $className" }
+            logger.w { "Could not find outlet for $simpleName" }
         } else {
             outlet.onTypelessMessage(typelessObject) {
                 logger.v { "Egress used" }
@@ -92,7 +92,7 @@ class MessageThread(
             val take = messageQueue.take()
             logger.v { "Send queued" }
             val messageObject = objectMapper.writeValueAsString(take)
-            val socketMessage = SocketMessage(take.javaClass.name, messageObject)
+            val socketMessage = SocketMessage(take.javaClass.simpleName, messageObject)
             val valueAsString = objectMapper.writeValueAsString(socketMessage)
             logger.d { "-->" }
             println(valueAsString)

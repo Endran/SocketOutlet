@@ -1,3 +1,3 @@
 package org.craftsmenlabs.socketoutlet.core
 
-data class SocketMessage(val className: String, val messageObject: String)
+data class SocketMessage(val simpleClazzName: String, val messageObject: String)

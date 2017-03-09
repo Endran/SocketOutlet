@@ -2,13 +2,18 @@ package org.craftsmenlabs.socketoutlet.core
 
 abstract class Outlet<T>(val clazz: Class<T>) {
 
-    fun onTypelessMessage(message: Any, egress: ((Any) -> Unit)) {
-        onMessage(message as T, object : Egress {
-            override fun send(message: Any) {
-                egress.invoke(message)
-            }
-        })
+    @Suppress("UNCHECKED_CAST")
+    fun onTypelessMessage(typelessObject: Any, egress: ((Any) -> Unit)) {
+        try {
+            onMessage(typelessObject as T, object : Egress {
+                override fun send(message: Any) {
+                    egress.invoke(message)
+                }
+            })
+        } catch (t: Throwable) {
+            egress.invoke(ErrorMessage("An error occurred when invoking ${this.javaClass.simpleName}.onMessage(...)", t))
+        }
     }
 
-    abstract fun onMessage(message: T, egress: Egress)
+    protected abstract fun onMessage(message: T, egress: Egress)
 }

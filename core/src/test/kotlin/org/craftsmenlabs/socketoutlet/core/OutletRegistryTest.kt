@@ -23,8 +23,8 @@ class OutletRegistryTest {
         outletRegistry.register(outlet1)
         outletRegistry.register(outlet2)
 
-        val actualClazz1 = outletRegistry.getClazz(expectedClazz1.name)
-        val actualClazz2 = outletRegistry.getClazz(expectedClazz2.name)
+        val actualClazz1 = outletRegistry.getClazz(expectedClazz1.simpleName)
+        val actualClazz2 = outletRegistry.getClazz(expectedClazz2.simpleName)
 
         assertThat(actualClazz1).isSameAs(expectedClazz1)
         assertThat(actualClazz2).isSameAs(expectedClazz2)
@@ -38,8 +38,8 @@ class OutletRegistryTest {
         outletRegistry.register(outlet1)
         outletRegistry.register(outlet2)
 
-        val actualOutlet1 = outletRegistry.getOutlet(expectedClazz1.name)
-        val actualOutlet2 = outletRegistry.getOutlet(expectedClazz2.name)
+        val actualOutlet1 = outletRegistry.getOutlet(expectedClazz1.simpleName)
+        val actualOutlet2 = outletRegistry.getOutlet(expectedClazz2.simpleName)
 
         assertThat(actualOutlet1).isSameAs(outlet1)
         assertThat(actualOutlet2).isSameAs(outlet2)
