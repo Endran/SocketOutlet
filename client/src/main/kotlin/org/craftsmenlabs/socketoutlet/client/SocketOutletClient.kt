@@ -15,7 +15,7 @@ class SocketOutletClient(
         private val objectMapper: ObjectMapper = ObjectMapper().initForSocketOutlet(),
         private val logger: SLogger = CustomLogger(CustomLogger.Level.INFO)) {
 
-    private var messageThread: MessageThread? = null
+    internal var messageThread: MessageThread? = null
 
     fun start() {
         if (isRunning()) {
@@ -31,7 +31,7 @@ class SocketOutletClient(
         messageThread?.run {
             logger.d { "Sending" }
             send(message)
-        }
+        } ?: throw RuntimeException("Thread not running")
     }
 
     fun stop() {
