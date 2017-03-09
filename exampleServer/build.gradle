@@ -9,5 +9,5 @@ buildscript {
 
 dependencies {
     compile project(':exampleApi')
-    compile project(':socketServer')
+    compile project(':server')
 }

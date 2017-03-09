@@ -23,5 +23,5 @@ jacocoTestReport {
 }
 
 dependencies {
-    compile project(':socketCore')
+    compile project(':core')
 }

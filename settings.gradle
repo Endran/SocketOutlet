@@ -1,2 +1,2 @@
-rootProject.name = 'SimpleSocket'
-include 'socketCore', 'socketServer', 'socketClient', 'exampleApi', 'exampleServer', 'exampleClient'
+rootProject.name = 'SocketOutlet'
+include 'core', 'server', 'client', 'exampleApi', 'exampleServer', 'exampleClient'
