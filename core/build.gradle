@@ -15,6 +15,10 @@ plugins {
 apply plugin: 'maven'
 group = 'com.github.Endran'
 
+coveralls {
+    sourceDirs += ['src/main/kotlin']
+}
+
 jacocoTestReport {
     reports {
         xml.enabled = true
