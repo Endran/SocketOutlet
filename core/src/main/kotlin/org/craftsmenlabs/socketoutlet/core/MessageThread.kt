@@ -2,30 +2,28 @@ package org.craftsmenlabs.socketoutlet.core
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.craftsmenlabs.socketoutlet.core.log.SLogger
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.io.PrintWriter
+import java.io.*
 import java.net.Socket
 import java.util.concurrent.LinkedBlockingQueue
 
-class MessageThread(
+open class MessageThread(
         private val objectMapper: ObjectMapper,
         private val outletRegistry: OutletRegistry,
         private val socket: Socket,
         private val logger: SLogger) : Thread() {
 
     private var writer: PrintWriter? = null
-    private var running = true
+    private var running = false
 
     private val messageQueue = LinkedBlockingQueue<Any>()
 
     override fun run() {
         logger.v { ("Run") }
+        running = true
 
         try {
-            val reader = BufferedReader(InputStreamReader(socket.inputStream))
-            writer = PrintWriter(socket.outputStream, true)
+            val reader = getReader(socket.inputStream)
+            writer = getWriter(socket.outputStream)
 
             while (running) {
                 sendNow()
@@ -56,7 +54,6 @@ class MessageThread(
     }
 
     private fun handleMessage(line: String) {
-
         val (simpleName, messageObject) = objectMapper.readValue(line, SocketMessage::class.java)
         val clazz = outletRegistry.getClazz(simpleName)
         val typelessObject = objectMapper.readValue(messageObject, clazz)
@@ -74,10 +71,10 @@ class MessageThread(
     }
 
     fun send(message: Any) {
-        if (running) {
-            logger.v { "Send queued" }
-            messageQueue.put(message)
-        }
+        if (!running) throw RuntimeException("The thread is not running")
+
+        logger.v { "Send queued" }
+        messageQueue.put(message)
 
         Thread({
             sendNow()
@@ -109,4 +106,7 @@ class MessageThread(
     }
 
     fun isRunning() = running
+
+    internal open fun getReader(inputStream: InputStream) = BufferedReader(InputStreamReader(inputStream))
+    internal open fun getWriter(outputStream: OutputStream) = PrintWriter(outputStream, true)
 }

@@ -13,8 +13,10 @@ class SocketOutletServer constructor(
         private val objectMapper: ObjectMapper = ObjectMapper().initForSocketOutlet(),
         private val logger: SLogger = CustomLogger(CustomLogger.Level.INFO)) {
 
-    private var running: Boolean = false
-    private var threadList = mutableListOf<MessageThread>()
+    var running: Boolean = false
+        internal set
+
+    internal var threadList = mutableListOf<MessageThread>()
 
     fun open(port: Int) {
         if (running) {
@@ -23,22 +25,26 @@ class SocketOutletServer constructor(
 
         running = true
         ServerSocket(port).use {
-            logger.i { "Server is running." }
-
-            while (running) {
-                val socket = it.accept()
-                logger.i { "Client connected" }
-
-                val messageThread = MessageThread(objectMapper, outletRegistry, socket, logger)
-                messageThread.start()
-                threadList.add(messageThread)
-
-                threadList.retainAll { it.isRunning() }
-            }
+            serverLoop(it)
         }
         running = false
 
         logger.i { "Server stopped." }
+    }
+
+    internal fun serverLoop(it: ServerSocket) {
+        logger.i { "Server is running." }
+
+        while (running) {
+            val socket = it.accept()
+            logger.i { "Client connected" }
+
+            val messageThread = MessageThread(objectMapper, outletRegistry, socket, logger)
+            messageThread.start()
+            threadList.add(messageThread)
+
+            threadList.retainAll { it.isRunning() }
+        }
     }
 
     fun close() {
