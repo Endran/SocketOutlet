@@ -1,11 +1,9 @@
-group 'org.craftsmenlabs'
-version '0.1.0-SNAPSHOT'
-
 buildscript {
     ext.kotlinVersion = '1.0.6'
 
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
@@ -13,16 +11,26 @@ buildscript {
     }
 }
 
+plugins {
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.8.1'
+}
+
 allprojects {
 
     repositories {
         jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
 
     apply plugin: 'java'
     apply plugin: 'com.github.ben-manes.versions'
     apply plugin: 'kotlin'
+    apply plugin: 'jacoco'
+
+    group 'org.craftsmenlabs'
+    version '0.1.0-SNAPSHOT'
 
     ext.assertJVersion = '3.6.2'
     ext.jacksonVersion = '2.8.7'
@@ -45,12 +53,37 @@ allprojects {
         testCompile "org.jmockit:jmockit:${jMockitVersion}"
         testCompile "org.assertj:assertj-core:${assertJVersion}"
         testCompile "junit:junit:${jUnitVersion}"
-        testCompile "io.reactivex:rxkotlin:${rxKotlinVersion}" // TODO: Removing this (unused) dependency breaks the build?
+        testCompile "io.reactivex:rxkotlin:${rxKotlinVersion}"
+        // TODO: Removing this (unused) dependency breaks the build?
 
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.2.1'
+    gradleVersion = '3.4.1'
+}
+
+task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
+    description = 'Generates an aggregate report from all subprojects'
+    dependsOn(subprojects.test)
+
+    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories = files(subprojects.sourceSets.main.output)
+    executionData = files(subprojects.jacocoTestReport.executionData)
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+
+    doFirst {
+        executionData = files(executionData.findAll { it.exists() })
+    }
+}
+
+coveralls {
+    sourceDirs = subprojects.sourceSets.main.allSource.srcDirs.flatten()
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
 }
