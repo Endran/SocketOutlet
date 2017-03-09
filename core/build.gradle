@@ -17,6 +17,7 @@ group = 'com.github.Endran'
 
 coveralls {
     sourceDirs += ['src/main/kotlin']
+    print sourceDirs
 }
 
 jacocoTestReport {
