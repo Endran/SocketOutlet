@@ -1,21 +1,21 @@
 package org.craftsmenlabs.socketoutlet.client
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.craftsmenlabs.socketoutlet.core.MessageThread
 import org.craftsmenlabs.socketoutlet.core.OutletRegistry
-import org.craftsmenlabs.socketoutlet.core.SimpleSocketMessageThread
-import org.craftsmenlabs.socketoutlet.core.initForSimpleSockets
+import org.craftsmenlabs.socketoutlet.core.initForSocketOutlet
 import org.craftsmenlabs.socketoutlet.core.log.CustomLogger
 import org.craftsmenlabs.socketoutlet.core.log.SLogger
 import java.net.Socket
 
-class SimpleSocketClient(
+class SocketOutletClient(
         private val ipAddress: String,
         private val port: Int,
         private val outletRegistry: OutletRegistry,
-        private val objectMapper: ObjectMapper = ObjectMapper().initForSimpleSockets(),
+        private val objectMapper: ObjectMapper = ObjectMapper().initForSocketOutlet(),
         private val logger: SLogger = CustomLogger(CustomLogger.Level.INFO)) {
 
-    private var messageThread: SimpleSocketMessageThread? = null
+    private var messageThread: MessageThread? = null
 
     fun start() {
         if (isRunning()) {
@@ -23,7 +23,7 @@ class SimpleSocketClient(
         }
 
         val socket = Socket(ipAddress, port)
-        messageThread = SimpleSocketMessageThread(objectMapper, outletRegistry, socket, logger)
+        messageThread = MessageThread(objectMapper, outletRegistry, socket, logger)
         messageThread?.start()
     }
 

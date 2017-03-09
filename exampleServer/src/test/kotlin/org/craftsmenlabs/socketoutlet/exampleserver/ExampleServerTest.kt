@@ -17,13 +17,13 @@
 package org.craftsmenlabs.socketoutlet.exampleserver
 
 import mockit.Tested
-import org.craftsmenlabs.socketoutlet.server.SimpleSocketServer
+import org.craftsmenlabs.socketoutlet.server.SocketOutletServer
 import org.junit.Test
 
 class ExampleServerTest {
 
 //    @Tested
-//    lateinit var exampleServer: SimpleSocketServer
+//    lateinit var exampleServer: SocketOutletServer
 //
 //    private val TEST = "TEST"
 //

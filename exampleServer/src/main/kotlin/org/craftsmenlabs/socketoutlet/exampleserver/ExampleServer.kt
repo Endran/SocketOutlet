@@ -19,7 +19,7 @@ package org.craftsmenlabs.socketoutlet.exampleserver
 import org.craftsmenlabs.socketoutlet.core.OutletRegistry
 import org.craftsmenlabs.socketoutlet.exampleserver.outlets.ComplexThingOutlet
 import org.craftsmenlabs.socketoutlet.exampleserver.outlets.SimpleThingOutlet
-import org.craftsmenlabs.socketoutlet.server.SimpleSocketServer
+import org.craftsmenlabs.socketoutlet.server.SocketOutletServer
 
 class ExampleServer {
 
@@ -35,7 +35,7 @@ class ExampleServer {
         outletRegistry.register(SimpleThingOutlet())
         outletRegistry.register(ComplexThingOutlet())
 
-        val t = SimpleSocketServer(outletRegistry)
-        t.open(port)
+        val server = SocketOutletServer(outletRegistry)
+        server.open(port)
     }
 }

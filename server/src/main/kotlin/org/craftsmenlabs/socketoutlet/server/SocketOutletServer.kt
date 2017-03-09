@@ -1,20 +1,20 @@
 package org.craftsmenlabs.socketoutlet.server
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.craftsmenlabs.socketoutlet.core.MessageThread
 import org.craftsmenlabs.socketoutlet.core.OutletRegistry
-import org.craftsmenlabs.socketoutlet.core.SimpleSocketMessageThread
-import org.craftsmenlabs.socketoutlet.core.initForSimpleSockets
+import org.craftsmenlabs.socketoutlet.core.initForSocketOutlet
 import org.craftsmenlabs.socketoutlet.core.log.CustomLogger
 import org.craftsmenlabs.socketoutlet.core.log.SLogger
 import java.net.ServerSocket
 
-class SimpleSocketServer constructor(
+class SocketOutletServer constructor(
         private val outletRegistry: OutletRegistry,
-        private val objectMapper: ObjectMapper = ObjectMapper().initForSimpleSockets(),
+        private val objectMapper: ObjectMapper = ObjectMapper().initForSocketOutlet(),
         private val logger: SLogger = CustomLogger(CustomLogger.Level.INFO)) {
 
     private var running: Boolean = false
-    private var threadList = mutableListOf<SimpleSocketMessageThread>()
+    private var threadList = mutableListOf<MessageThread>()
 
     fun open(port: Int) {
         if (running) {
@@ -29,7 +29,7 @@ class SimpleSocketServer constructor(
                 val socket = it.accept()
                 logger.i { "Client connected" }
 
-                val messageThread = SimpleSocketMessageThread(objectMapper, outletRegistry, socket, logger)
+                val messageThread = MessageThread(objectMapper, outletRegistry, socket, logger)
                 messageThread.start()
                 threadList.add(messageThread)
 
@@ -43,7 +43,7 @@ class SimpleSocketServer constructor(
 
     fun close() {
         running = false
-        threadList.forEach(SimpleSocketMessageThread::interrupt)
+        threadList.forEach(MessageThread::interrupt)
         threadList.clear()
     }
 }

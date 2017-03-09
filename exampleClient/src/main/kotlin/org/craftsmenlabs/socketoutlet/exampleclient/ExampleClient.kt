@@ -16,7 +16,7 @@
 
 package org.craftsmenlabs.socketoutlet.exampleclient
 
-import org.craftsmenlabs.socketoutlet.client.SimpleSocketClient
+import org.craftsmenlabs.socketoutlet.client.SocketOutletClient
 import org.craftsmenlabs.socketoutlet.core.OutletRegistry
 import org.craftsmenlabs.socketoutlet.exampleapi.ComplexThing
 import org.craftsmenlabs.socketoutlet.exampleapi.SimpleThing
@@ -37,7 +37,7 @@ class ExampleClient {
         val outletRegistry = OutletRegistry()
         outletRegistry.register(SimpleThingOutlet())
 
-        val client = SimpleSocketClient(ipAddress, port, outletRegistry)
+        val client = SocketOutletClient(ipAddress, port, outletRegistry)
         client.start()
 
         sendSomething(client)
@@ -46,7 +46,7 @@ class ExampleClient {
         client.stop()
     }
 
-    private fun sendSomething(client: SimpleSocketClient) {
+    private fun sendSomething(client: SocketOutletClient) {
         val simpleSharedThing1 = SimpleThing("one", 1, true)
         val simpleSharedThing2 = SimpleThing("two", 2, false)
         val simpleSharedThing3 = SimpleThing("three", 3)

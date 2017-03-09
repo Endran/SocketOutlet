@@ -9,7 +9,7 @@ import java.io.PrintWriter
 import java.net.Socket
 import java.util.concurrent.LinkedBlockingQueue
 
-class SimpleSocketMessageThread(
+class MessageThread(
         private val objectMapper: ObjectMapper,
         private val outletRegistry: OutletRegistry,
         private val socket: Socket,
