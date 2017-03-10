@@ -27,7 +27,6 @@ class SocketOutletServerTest {
     @Injectable
     private lateinit var logger: SLogger
 
-    //    @Tested
     private lateinit var server: SocketOutletServer
 
     @Mocked
@@ -49,7 +48,7 @@ class SocketOutletServerTest {
     }
 
     @Test
-    fun shouldOpenPort_whenStarted() {
+    fun shouldOpenPort_whenStarted(@Mocked thread: Thread) {
         val runtimeException = RuntimeException()
 
         object : Expectations() {
@@ -59,7 +58,11 @@ class SocketOutletServerTest {
             }
         }
 
-        assertThatThrownBy({ server.open(port) }).isEqualTo(runtimeException)
+
+        assertThatThrownBy({
+            server.open(port)
+            Captors.captureThreadRunnable().run()
+        }).isEqualTo(runtimeException)
     }
 
     @Test
