@@ -1,5 +1,6 @@
 /*
- * Copyright 2017 David Hardy
+ * Copyright (c) 2017 David Hardy.
+ * Copyright (c) 2017 Craftsmenlabs.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +48,7 @@ class ExampleServer {
 
         server.open(port)
 
-        while (server.running){
+        while (server.running) {
             // Do some otherstuff it you want
             Thread.sleep(1000)
         }
