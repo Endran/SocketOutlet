@@ -1,0 +1,13 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+dependencies {
+    compile project(':exampleClient')
+    compile project(':exampleServer')
+}
