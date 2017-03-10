@@ -46,5 +46,12 @@ class ExampleServer {
         }
 
         server.open(port)
+
+        while (server.running){
+            // Do some otherstuff it you want
+            Thread.sleep(1000)
+        }
+
+        server.close()
     }
 }
