@@ -8,6 +8,6 @@ buildscript {
 }
 
 dependencies {
-    compile project(':exampleClient')
-    compile project(':exampleServer')
+    compile project(':client')
+    compile project(':server')
 }
