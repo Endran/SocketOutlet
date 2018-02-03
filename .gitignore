@@ -22,6 +22,7 @@
 
 # Gradle
 .gradle
+**/out/**
 
 # Web
 **/bower_components

@@ -27,8 +27,6 @@ import java.net.Socket
 
 class SocketOutletClient(
         private val id: String,
-        private val ipAddress: String,
-        private val port: Int,
         private val outletRegistry: OutletRegistry,
         private val objectMapper: ObjectMapper = ObjectMapper().initForSocketOutlet(),
         private val logger: SLogger = CustomLogger(CustomLogger.Level.INFO)) {
@@ -38,7 +36,7 @@ class SocketOutletClient(
     var serverConnectedCallback: (() -> Unit)? = null
     var serverDisconnectedCallback: (() -> Unit)? = null
 
-    fun start() {
+    fun start(ipAddress: String, port: Int) {
         if (isRunning()) {
             throw RuntimeException("Thread already running")
         }

@@ -247,7 +247,7 @@ class IntegrationTest() {
         clientOutletRegistry.register(simpleClientOutlet)
         clientOutletRegistry.register(complexClientOutlet)
 
-        client = SocketOutletClient(clientId, IP_ADDRESS, PORT, clientOutletRegistry, ObjectMapper().initForSocketOutlet(), CustomLogger(CustomLogger.Level.VERBOSE, "client"))
+        client = SocketOutletClient(clientId, clientOutletRegistry, ObjectMapper().initForSocketOutlet(), CustomLogger(CustomLogger.Level.VERBOSE, "client"))
 
         client.serverConnectedCallback = {
             serverConnected = true
@@ -257,7 +257,7 @@ class IntegrationTest() {
             serverConnected = false
         }
 
-        client.start()
+        client.start(IP_ADDRESS, PORT)
     }
 
     private fun setupServer() {

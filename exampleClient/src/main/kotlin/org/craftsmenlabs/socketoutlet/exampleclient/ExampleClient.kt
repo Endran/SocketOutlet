@@ -38,7 +38,7 @@ class ExampleClient {
         val outletRegistry = OutletRegistry()
         outletRegistry.register(SimpleThingOutlet())
 
-        val client = SocketOutletClient("ExampleClient", ipAddress, port, outletRegistry)
+        val client = SocketOutletClient("ExampleClient", outletRegistry)
 
         client.serverConnectedCallback = {
             println("Connected to server")
@@ -48,7 +48,7 @@ class ExampleClient {
             println("Disconnected from server")
         }
 
-        client.start()
+        client.start(ipAddress, port)
 
         sendSomething(client)
 

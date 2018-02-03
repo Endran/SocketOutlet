@@ -54,7 +54,7 @@ class SocketOutletClientTest {
 
     @Before
     fun setUp() {
-        socketOutletClient = SocketOutletClient(testId, ipAddress, port, outletRegistry, objectMapper, logger)
+        socketOutletClient = SocketOutletClient(testId, outletRegistry, objectMapper, logger)
     }
 
     @Test
@@ -102,8 +102,8 @@ class SocketOutletClientTest {
     fun shouldThrow_whenStartedTwice(
             @Mocked socket: Socket,
             @Mocked messageThread: MessageThread) {
-        socketOutletClient.start()
-        assertThatThrownBy({ socketOutletClient.start() }).isInstanceOf(RuntimeException::class.java)
+        socketOutletClient.start(ipAddress, port)
+        assertThatThrownBy({ socketOutletClient.start(ipAddress, port) }).isInstanceOf(RuntimeException::class.java)
     }
 
     @Test
@@ -121,7 +121,7 @@ class SocketOutletClientTest {
             }
         }
 
-        socketOutletClient.start()
+        socketOutletClient.start(ipAddress, port)
 
         object : Verifications() {
             init {
@@ -146,7 +146,7 @@ class SocketOutletClientTest {
             }
         }
 
-        socketOutletClient.start()
+        socketOutletClient.start(ipAddress, port)
 
         var serverConnectedCallbackInvoked = false
         socketOutletClient.serverConnectedCallback = {
@@ -178,7 +178,7 @@ class SocketOutletClientTest {
             }
         }
 
-        socketOutletClient.start()
+        socketOutletClient.start(ipAddress, port)
 
         var serverDisconnectedCallbackInvoked = false
         socketOutletClient.serverDisconnectedCallback = {
