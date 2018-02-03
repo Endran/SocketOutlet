@@ -92,4 +92,8 @@ class SocketOutletServer constructor(
     fun send(clientId: String, message: Any) {
         threadMap[clientId]?.send(message)
     }
+
+    fun sendToAll(message: Any) {
+        threadMap.values.forEach { it.send(message) }
+    }
 }
