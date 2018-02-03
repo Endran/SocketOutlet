@@ -28,7 +28,7 @@ abstract class Outlet<T>(val clazz: Class<T>) {
                 }
             })
         } catch (t: Throwable) {
-            egress.invoke(ErrorMessage("An error occurred when invoking ${this.javaClass.simpleName}.onMessage(...)", t))
+            egress.invoke(ErrorMessage("An error occurred when invoking ${this.javaClass.name}.onMessage(...)", t))
         }
     }
 

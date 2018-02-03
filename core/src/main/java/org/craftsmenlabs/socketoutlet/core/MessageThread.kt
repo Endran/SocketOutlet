@@ -81,25 +81,25 @@ open class MessageThread(
     }
 
     private fun handleMessage(line: String) {
-        val (simpleName, messageObject) = objectMapper.readValue(line, SocketMessage::class.java)
+        val (name, messageObject) = objectMapper.readValue(line, SocketMessage::class.java)
 
-        val handled = handleHelloIdCallback(messageObject, simpleName)
+        val handled = handleHelloIdCallback(messageObject, name)
         if (handled) {
             return
         }
 
-        val clazz = outletRegistry.getClazz(simpleName)
+        val clazz = outletRegistry.getClazz(name)
         if (clazz == null) {
-            putMessage(ErrorMessage("Class $simpleName cannot be found by the server"))
+            putMessage(ErrorMessage("Class $name cannot be found by the server"))
             sendNow()
             return
         }
 
         val typelessObject = objectMapper.readValue(messageObject, clazz)
 
-        val outlet = outletRegistry.getOutlet(simpleName)
+        val outlet = outletRegistry.getOutlet(name)
         if (outlet == null) {
-            logger.w { "Could not find outlet for $simpleName" }
+            logger.w { "Could not find outlet for $name" }
         } else {
             outlet.onTypelessMessage(typelessObject) {
                 logger.v { "Egress used" }
@@ -115,8 +115,8 @@ open class MessageThread(
         }
     }
 
-    private fun handleHelloIdCallback(messageObject: String, simpleName: String): Boolean {
-        val isHelloCallback = simpleName == HelloMessage::class.java.simpleName
+    private fun handleHelloIdCallback(messageObject: String, name: String): Boolean {
+        val isHelloCallback = name == HelloMessage::class.java.name
         idCallback?.run {
             if (isHelloCallback) {
                 val id = objectMapper.readValue(messageObject, HelloMessage::class.java).id
@@ -152,7 +152,7 @@ open class MessageThread(
                     val take = messageQueue.take()
                     logger.v { "Send queued" }
                     val messageObject = objectMapper.writeValueAsString(take)
-                    val socketMessage = SocketMessage(take.javaClass.simpleName, messageObject)
+                    val socketMessage = SocketMessage(take.javaClass.name, messageObject)
                     val valueAsString = objectMapper.writeValueAsString(socketMessage)
                     logger.d { "-->" }
                     println(valueAsString)
