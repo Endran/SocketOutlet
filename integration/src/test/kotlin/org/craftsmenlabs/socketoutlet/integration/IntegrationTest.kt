@@ -284,7 +284,7 @@ class IntegrationTest() {
 
         val messageCalls = mutableListOf<Pair<T, Egress>>()
 
-        override fun onMessage(message: T, egress: Egress) {
+        override fun onMessage(sender: String, message: T, egress: Egress) {
             messageCalls.add(Pair(message, egress))
         }
     }

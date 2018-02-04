@@ -43,7 +43,7 @@ class SocketOutletClient(
 
         val socket = Socket(ipAddress, port)
         messageThread = MessageThread(objectMapper, outletRegistry, socket, logger)
-        messageThread?.actorId = id
+        messageThread?.localActorId = id
         messageThread?.connectedCallback = serverConnectedCallback
         messageThread?.disconnctedCallback = serverDisconnectedCallback
         messageThread?.start()

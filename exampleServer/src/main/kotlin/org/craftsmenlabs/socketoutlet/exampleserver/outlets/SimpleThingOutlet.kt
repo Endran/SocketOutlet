@@ -26,7 +26,7 @@ class SimpleThingOutlet : Outlet<SimpleThing>(SimpleThing::class.java) {
 
     private val logger = CustomLogger(CustomLogger.Level.INFO)
 
-    override fun onMessage(message: SimpleThing, egress: Egress) {
-        logger.i { "Just received a SimpleThing: ${message.toString()}" }
+    override fun onMessage(sender: String, message: SimpleThing, egress: Egress) {
+        logger.i { "Just received a SimpleThing: $message from $sender" }
     }
 }

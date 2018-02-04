@@ -22,14 +22,16 @@ import org.junit.Test
 
 class OutletTest {
 
+    val testSender = "TEST_SENDER"
     val testOutlet = TestOutlet()
 
     @Test
     fun shouldCallConcreteImplementation_whenTypelessIsInvoked() {
         val expected = ErrorMessage("TEST_MESSAGE")
-        testOutlet.onTypelessMessage(expected) { x ->
+        testOutlet.onTypelessMessage(testSender, expected) { x ->
 
         }
+        assertThat(testOutlet.sender).isSameAs(testSender)
         assertThat(testOutlet.message).isEqualTo(expected)
     }
 
@@ -43,7 +45,7 @@ class OutletTest {
             egressActual = x
         }
 
-        testOutlet.onTypelessMessage(message, egress)
+        testOutlet.onTypelessMessage(testSender, message, egress)
         testOutlet.egress?.send(egressExpected)
 
         assertThat(egressActual).isSameAs(egressExpected)
@@ -58,17 +60,19 @@ class OutletTest {
             egressMessage = x
         }
 
-        testOutlet.onTypelessMessage(someObject, egress)
+        testOutlet.onTypelessMessage(testSender, someObject, egress)
 
         assertThat(egressMessage).isInstanceOf(ErrorMessage::class.java)
         assertThat((egressMessage as ErrorMessage).message).isEqualTo("An error occurred when invoking TestOutlet.onMessage(...)")
     }
 
     class TestOutlet : Outlet<ErrorMessage>(ErrorMessage::class.java) {
+        var sender: String? = null
         var message: ErrorMessage? = null
         var egress: Egress? = null
 
-        override fun onMessage(message: ErrorMessage, egress: Egress) {
+        override fun onMessage(sender: String, message: ErrorMessage, egress: Egress) {
+            this.sender = sender
             this.message = message
             this.egress = egress
         }

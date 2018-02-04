@@ -63,8 +63,10 @@ class OutletRegistryTest {
     }
 
     class TestOutlet<T>(clazz: Class<T>) : Outlet<T>(clazz) {
+        var sender: String? = null
         var message: T? = null
-        override fun onMessage(message: T, egress: Egress) {
+        override fun onMessage(sender: String, message: T, egress: Egress) {
+            this.sender = sender
             this.message = message
         }
     }

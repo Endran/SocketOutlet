@@ -32,7 +32,8 @@ open class MessageThread(
     private var writer: PrintWriter? = null
     private var running = false
 
-    var actorId: String? = null
+    var localActorId: String? = null
+    var remoteActorId: String? = null
 
     private val messageQueue = LinkedBlockingQueue<Any>()
     var connectedCallback: (() -> Unit)? = null
@@ -43,7 +44,7 @@ open class MessageThread(
         logger.v { ("Run") }
         running = true
 
-        actorId?.run { putMessage(HelloMessage(this)) }
+        localActorId?.run { putMessage(HelloMessage(this)) }
 
         try {
             val reader = getReader(socket.inputStream)
@@ -101,7 +102,7 @@ open class MessageThread(
         if (outlet == null) {
             logger.w { "Could not find outlet for $name" }
         } else {
-            outlet.onTypelessMessage(typelessObject) {
+            outlet.onTypelessMessage(remoteActorId ?: "", typelessObject) {
                 logger.v { "Egress used" }
                 putMessage(it)
                 sendNow()
@@ -120,6 +121,7 @@ open class MessageThread(
         idCallback?.run {
             if (isHelloCallback) {
                 val id = objectMapper.readValue(messageObject, HelloMessage::class.java).id
+                remoteActorId = id
                 this.invoke(id)
             }
         }

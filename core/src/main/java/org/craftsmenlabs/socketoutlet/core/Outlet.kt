@@ -20,9 +20,9 @@ package org.craftsmenlabs.socketoutlet.core
 abstract class Outlet<T>(val clazz: Class<T>) {
 
     @Suppress("UNCHECKED_CAST")
-    fun onTypelessMessage(typelessObject: Any, egress: ((Any) -> Unit)) {
+    fun onTypelessMessage(sender: String, typelessObject: Any, egress: ((Any) -> Unit)) {
         try {
-            onMessage(typelessObject as T, object : Egress {
+            onMessage(sender, typelessObject as T, object : Egress {
                 override fun send(message: Any) {
                     egress.invoke(message)
                 }
@@ -32,5 +32,5 @@ abstract class Outlet<T>(val clazz: Class<T>) {
         }
     }
 
-    protected abstract fun onMessage(message: T, egress: Egress)
+    protected abstract fun onMessage(sender: String, message: T, egress: Egress)
 }
