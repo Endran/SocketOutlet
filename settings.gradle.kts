@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-rootProject.name = 'SocketOutlet'
-include 'core'
-include 'server'
-include 'client'
-include 'exampleApi'
-include 'exampleServer'
-include 'exampleClient'
-include 'integration'
+//include 'exampleApi'
+//include 'exampleServer'
+//include 'exampleClient'
+//include 'integration'
+
+
+rootProject.name = "SocketOutlet"
+include("core", "server", "client")

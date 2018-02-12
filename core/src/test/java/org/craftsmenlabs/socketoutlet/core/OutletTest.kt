@@ -63,7 +63,7 @@ class OutletTest {
         testOutlet.onTypelessMessage(testSender, someObject, egress)
 
         assertThat(egressMessage).isInstanceOf(ErrorMessage::class.java)
-        assertThat((egressMessage as ErrorMessage).message).isEqualTo("An error occurred when invoking TestOutlet.onMessage(...)")
+        assertThat((egressMessage as ErrorMessage).message).startsWith("An error occurred when invoking")
     }
 
     class TestOutlet : Outlet<ErrorMessage>(ErrorMessage::class.java) {

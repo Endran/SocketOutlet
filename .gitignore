@@ -3,21 +3,7 @@
 
 # IntelliJ
 *.iml
-**/.idea/uiDesigner.xml
-**/.idea/encodings.xml
-**/.idea/workspace.xml
-**/.idea/kotlinc.xml
-**/.idea/libraries
-**/.idea/compiler.xml
-**/.idea/sonarlint/*
-**/.idea/modules.xml
-**/.idea/vcs.xml
-**/.idea/misc.xml
-**/.idea/typescript-compiler.xml
-**/.idea/jsLibraryMappings.xml
-**/.idea/gradle.xml
-**/.idea/artifacts/**
-**/.idea/inspectionProfiles/**
+**/.idea/**
 .editorconfig
 
 # Gradle

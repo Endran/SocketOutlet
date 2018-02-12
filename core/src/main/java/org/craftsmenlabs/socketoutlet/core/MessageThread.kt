@@ -100,7 +100,7 @@ open class MessageThread(
 
         val outlet = outletRegistry.getOutlet(name)
         if (outlet == null) {
-            logger.w { "Could not find outlet for $name" }
+            logger.d { "Could not find outlet for $name" }
         } else {
             outlet.onTypelessMessage(remoteActorId ?: "", typelessObject) {
                 logger.v { "Egress used" }
