@@ -21,8 +21,9 @@ class OutletRegistry {
 
     private val registry = mutableMapOf<String, Pair<Class<*>, Outlet<*>>>()
 
-    fun <T> register(outlet: Outlet<T>) {
+    fun <T> register(outlet: Outlet<T>): () -> Unit {
         registry.put(outlet.clazz.name, Pair(outlet.clazz, outlet))
+        return { unregister(outlet) }
     }
 
     fun getClazz(simpleClazzName: String): Class<*>? {
@@ -31,5 +32,9 @@ class OutletRegistry {
 
     fun getOutlet(simpleClazzName: String): Outlet<*>? {
         return registry[simpleClazzName]?.second
+    }
+
+    fun <T> unregister(outlet: Outlet<T>) {
+        registry.remove(outlet.clazz.name)
     }
 }

@@ -62,6 +62,29 @@ class OutletRegistryTest {
         assertThat(actualOutlet2).isSameAs(outlet2)
     }
 
+    @Test
+    fun shouldUnregisterByLamda() {
+        val expectedClazz1 = TestData1::class.java
+
+        outletRegistry.register(outlet1).invoke()
+
+        val actualOutlet1 = outletRegistry.getOutlet(expectedClazz1.name)
+
+        assertThat(actualOutlet1).isNull()
+    }
+
+    @Test
+    fun shouldUnregisterByUnregister() {
+        val expectedClazz1 = TestData1::class.java
+
+        outletRegistry.register(outlet1)
+        outletRegistry.unregister(outlet1)
+
+        val actualOutlet1 = outletRegistry.getOutlet(expectedClazz1.name)
+
+        assertThat(actualOutlet1).isNull()
+    }
+
     class TestOutlet<T>(clazz: Class<T>) : Outlet<T>(clazz) {
         var sender: String? = null
         var message: T? = null
