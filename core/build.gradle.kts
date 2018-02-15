@@ -65,11 +65,6 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-annotations:${ext["jacksonVersion"]}")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${ext["jacksonVersion"]}")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:${ext["jacksonVersion"]}")
-
-    testCompile("org.jmockit:jmockit:${ext["jmockitVersion"]}")
-    testCompile("org.assertj:assertj-core:${ext["assertjVersion"]}")
-    testCompile("junit:junit:${ext["junitVersion"]}")
-    testCompile("io.reactivex.rxjava2:rxkotlin:${ext["rxKotlinVersion"]}")
 }
 
 val dokkaJar = task<Jar>("dokkaJar") {

@@ -26,9 +26,11 @@ import org.jetbrains.kotlin.load.kotlin.isContainedByCompiledPartOfOurModule
 import java.net.URI
 import org.gradle.plugins.ide.idea.model.IdeaModule
 
+
 buildscript {
 
     val gradleVersionsVersion = "0.17.0"
+    val kotlinVersion = "1.2.21"
 
     repositories {
         jcenter()
@@ -36,6 +38,7 @@ buildscript {
 
     dependencies {
         classpath("com.github.ben-manes:gradle-versions-plugin:$gradleVersionsVersion")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
 
@@ -46,7 +49,7 @@ apply {
 plugins {
     base
     idea
-    kotlin("jvm") version "1.2.21" apply false
+    java
 }
 
 repositories {
@@ -65,17 +68,7 @@ configure<IdeaModel> {
     }
 }
 
-subprojects {
-
-    repositories {
-        jcenter()
-        maven { setUrl("https://jitpack.io") }
-    }
-
-    plugins {
-        kotlin("jvm") version "1.2.21" apply false
-    }
-
+allprojects {
     group = "org.craftsmenlabs"
     version = "0.2.0-SNAPSHOT"
     ext["projectVersion"] = version
@@ -85,12 +78,30 @@ subprojects {
     ext["jacksonVersion"] = "2.8.7"
     ext["jmockitVersion"] = "1.38"
     ext["junitVersion"] = "4.12"
-    ext["rxJavaVersion"] = "2.1.9"
-    ext["rxKotlinVersion"] = "2.2.0"
-    ext["socketOutletVersion"] = "aec78e4456"
+    ext["kotlinVersion"] = "1.2.21"
+}
+
+subprojects {
+
+    apply {
+        plugin("kotlin")
+    }
+
+    repositories {
+        jcenter()
+        maven { setUrl("https://jitpack.io") }
+    }
+
+    plugins {
+        kotlin("jvm") version ext["kotlinVersion"] as String apply false
+    }
 
     dependencies {
-        // This I really want
+        compileOnly("org.jetbrains.kotlin:kotlin-stdlib:${ext["kotlinVersion"]}")
+
+        testCompile("org.jmockit:jmockit:${ext["jmockitVersion"]}")
+        testCompile("org.assertj:assertj-core:${ext["assertjVersion"]}")
+        testCompile("junit:junit:${ext["junitVersion"]}")
     }
 }
 

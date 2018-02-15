@@ -16,7 +16,8 @@
  */
 
 rootProject.name = "SocketOutlet"
-include("core",
+include(
+        "core",
         "server",
         "client",
         "client",

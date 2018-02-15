@@ -32,9 +32,4 @@ application {
 dependencies {
     compile(project(":exampleApi"))
     compile(project(":server"))
-
-    testCompile("org.jmockit:jmockit:${ext["jmockitVersion"]}")
-    testCompile("org.assertj:assertj-core:${ext["assertjVersion"]}")
-    testCompile("junit:junit:${ext["junitVersion"]}")
-    testCompile("io.reactivex.rxjava2:rxkotlin:${ext["rxKotlinVersion"]}")
 }
