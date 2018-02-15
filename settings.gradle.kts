@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 
-//include 'integration'
-
 rootProject.name = "SocketOutlet"
-include("core", "server", "client", "client", "exampleApi", "exampleServer", "exampleClient")
+include("core",
+        "server",
+        "client",
+        "client",
+        "exampleApi",
+        "exampleServer",
+        "exampleClient",
+        "integration")
