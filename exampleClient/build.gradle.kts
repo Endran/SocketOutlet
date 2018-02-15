@@ -15,14 +15,26 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    }
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.kotlin
+import org.gradle.kotlin.dsl.repositories
+
+plugins {
+    application
+    kotlin("jvm")
+}
+
+application {
+    mainClassName = "org.craftsmenlabs.socketoutlet.exampleclient.ExampleClient"
 }
 
 dependencies {
+    compile(project(":exampleApi"))
+    compile(project(":client"))
+
+    testCompile("org.jmockit:jmockit:${ext["jmockitVersion"]}")
+    testCompile("org.assertj:assertj-core:${ext["assertjVersion"]}")
+    testCompile("junit:junit:${ext["junitVersion"]}")
+    testCompile("io.reactivex.rxjava2:rxkotlin:${ext["rxKotlinVersion"]}")
 }

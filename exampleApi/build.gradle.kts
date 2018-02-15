@@ -15,16 +15,6 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    }
-}
-
-dependencies {
-    compile project(':exampleApi')
-    compile project(':client')
+plugins {
+    kotlin("jvm")
 }
