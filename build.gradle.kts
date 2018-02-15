@@ -74,8 +74,8 @@ allprojects {
     ext["projectVersion"] = version
 
     ext["assertjVersion"] = "3.9.0"
-    ext["gsonVersion"] = "2.8.2"
-    ext["jacksonVersion"] = "2.8.7"
+    ext["jacksonVersion"] = "2.9.4"
+    ext["jacksonKotlinVersion"] = "2.9.4.1"
     ext["jmockitVersion"] = "1.38"
     ext["junitVersion"] = "4.12"
     ext["kotlinVersion"] = "1.2.21"

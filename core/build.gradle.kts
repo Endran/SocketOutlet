@@ -64,7 +64,7 @@ dependencies {
     compile("com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${ext["jacksonVersion"]}")
     compile("com.fasterxml.jackson.core:jackson-annotations:${ext["jacksonVersion"]}")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${ext["jacksonVersion"]}")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin:${ext["jacksonVersion"]}")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:${ext["jacksonKotlinVersion"]}")
 }
 
 val dokkaJar = task<Jar>("dokkaJar") {
